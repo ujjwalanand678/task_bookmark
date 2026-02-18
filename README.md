@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+##Issues Faced & How They Were Resolved
 
-## Getting Started
+##Supabase Setup (First Time Use)
+While setting up Supabase for the first time, I encountered multiple configuration issues. I referred to documentation and tutorial videos to understand the setup process and successfully completed the configuration.
 
-First, run the development server:
+##Google OAuth Not Working
+Authentication initially failed because the Google provider and authorization settings were not properly configured in Supabase. After troubleshooting and following tutorials, I enabled the provider correctly and fixed the issue.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+##Missing Authorized Redirect URI
+OAuth continued to fail due to an incorrect/missing Authorized Redirect URI. The correct redirect URL had to be added in Supabase authentication settings.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##Deleted OAuth Client Error
+An error occurred because the OAuth client had been removed. I recreated a new OAuth client in Google Cloud and reconfigured all credentials.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##Database Table Not Found
+Error: Could not find the table 'public.bookmarks' in the schema cache
+Cause: The bookmarks table did not exist in the database.
+Fix: Created the bookmarks table in Supabase and the application worked correctly.
