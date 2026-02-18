@@ -58,7 +58,7 @@ export default function Dashboard({ user }: { user: User }) {
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error('Error fetching bookmarks:', error)
+      console.error('Error fetching bookmarks:', error.message, '| details:', error.details, '| hint:', error.hint)
     } else {
       setBookmarks(data || [])
     }
