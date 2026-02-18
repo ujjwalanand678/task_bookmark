@@ -12,7 +12,7 @@ OAuth continued to fail due to an incorrect/missing Authorized Redirect URI. The
 ## Deleted OAuth Client Error
 An error occurred because the OAuth client had been removed. I recreated a new OAuth client in Google Cloud and reconfigured all credentials.
 
-##Database Table Not Found
+## Database Table Not Found
 Error: Could not find the table 'public.bookmarks' in the schema cache
 Cause: The bookmarks table did not exist in the database.
 Fix: Created the bookmarks table in Supabase and the application worked correctly.
