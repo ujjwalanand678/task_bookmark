@@ -13,6 +13,8 @@ interface Bookmark {
   created_at: string
 }
 
+const supabase = createClient()
+
 export default function Dashboard({ user }: { user: User }) {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
   const [newUrl, setNewUrl] = useState('')
@@ -20,7 +22,6 @@ export default function Dashboard({ user }: { user: User }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const supabase = createClient()
 
   useEffect(() => {
     fetchBookmarks()
@@ -37,13 +38,22 @@ export default function Dashboard({ user }: { user: User }) {
         },
         (payload) => {
           if (payload.eventType === 'INSERT') {
-            setBookmarks((prev) => [payload.new as Bookmark, ...prev])
+            const newBookmark = payload.new as Bookmark
+            setBookmarks((prev) => {
+              // Avoid duplicate if already added manually
+              if (prev.some(b => b.id === newBookmark.id)) return prev
+              return [newBookmark, ...prev]
+            })
           } else if (payload.eventType === 'DELETE') {
             setBookmarks((prev) => prev.filter((b) => b.id !== payload.old.id))
           }
         }
       )
-      .subscribe()
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('Successfully subscribed to bookmarks realtime')
+        }
+      })
 
     return () => {
       supabase.removeChannel(channel)
@@ -77,17 +87,24 @@ export default function Dashboard({ user }: { user: User }) {
       formattedUrl = `https://${newUrl}`
     }
 
-    const { error } = await supabase.from('bookmarks').insert([
+    const { data, error } = await supabase.from('bookmarks').insert([
       {
         url: formattedUrl,
         title: newTitle,
         user_id: user.id,
       },
-    ])
+    ]).select().single()
 
     if (error) {
       alert('Error adding bookmark: ' + error.message)
     } else {
+      // Manually add to state for immediate feedback
+      if (data) {
+        setBookmarks((prev) => {
+          if (prev.some(b => b.id === data.id)) return prev
+          return [data, ...prev]
+        })
+      }
       setNewUrl('')
       setNewTitle('')
     }
