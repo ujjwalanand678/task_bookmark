@@ -7,7 +7,7 @@ While setting up Supabase for the first time, I encountered multiple configurati
 Authentication initially failed because the Google provider and authorization settings were not properly configured in Supabase. After troubleshooting and following tutorials, I enabled the provider correctly and fixed the issue.
 
 ##Missing Authorized Redirect URI
-OAuth continued to fail due to an incorrect/missing Authorized Redirect URI. The correct redirect URL had to be added in Supabase authentication settings.
+OAuth continued to fail due to an incorrect/missing Authorized Redirect URI. The correct redirect URL had to be added from Supabase google oauth settings to the google cloud console.
 
 ##Deleted OAuth Client Error
 An error occurred because the OAuth client had been removed. I recreated a new OAuth client in Google Cloud and reconfigured all credentials.
